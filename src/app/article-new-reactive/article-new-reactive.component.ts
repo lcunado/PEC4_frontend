@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Article } from "src/app/models/article";
 import { NameArticleValidator } from 'src/app/validators/name-article-validator';
+import { ArticleService } from 'src/app/services/article.service';
 
 @Component({
   selector: 'app-article-new-reactive',
@@ -14,13 +15,11 @@ export class ArticleNewReactiveComponent implements OnInit {
 
   public wineForm : FormGroup;
   
-  constructor(private fb: FormBuilder) {
+  constructor (private fb: FormBuilder, private articleService: ArticleService) { 
     this.createForm();
   }
 
-  ngOnInit(): void {
- 
-  }
+  ngOnInit(): void {}
 
   createForm() {
     this.wineForm = this.fb.group({
@@ -40,9 +39,14 @@ export class ArticleNewReactiveComponent implements OnInit {
   createWine() {
     if (this.wineForm.invalid) {
       this.message = "Please correct all errors and resubmit the form";
-    } else {
-      const wine: Article = this.wineForm.value;
-      console.log("Creating wine", wine);
-    }
+    } 
+    const wine: Article = { 
+      ...this.wineForm.value, 
+      quantityInCart: 0
+    }; 
+    this.articleService.create(wine).subscribe(() => { 
+      this.message = "Wine created successfully!"; 
+      this.wineForm.reset(); 
+    });
   }
 }

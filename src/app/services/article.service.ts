@@ -7,7 +7,33 @@ import { Article } from '../models/article';
 })
 export class ArticleService {
 
-  private articles: Article[] = [];
+  private articles: Article[] = [ 
+    { 
+      id: 1, 
+      name: "Domaine de la Butte La Pied de la Butte", 
+      imageUrl: "assets/images/wine1.jpg", 
+      price: 19.95, 
+      isOnSale: false, 
+      quantityInCart: 0 
+    }, 
+    { 
+      id: 2, 
+      name: "Lolo", 
+      imageUrl: "assets/images/wine2.jpg", 
+      price: 6.15, 
+      isOnSale: true, 
+      quantityInCart: 0 
+    }, 
+    { 
+      id: 3, 
+      name: "Pago de Carraovejas", 
+      imageUrl: "assets/images/wine3.jpg", 
+      price: 31.9, 
+      isOnSale: false, 
+      quantityInCart: 0 
+    } 
+  ];
+  
   constructor() { }
 
   // Obtener todos los artículos 
