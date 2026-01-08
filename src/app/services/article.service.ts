@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs'; 
 import { Article } from '../models/article';
 
@@ -7,60 +8,25 @@ import { Article } from '../models/article';
 })
 export class ArticleService {
 
-  private articles: Article[] = [ 
-    { 
-      id: 1, 
-      name: "Domaine de la Butte La Pied de la Butte", 
-      imageUrl: "assets/images/wine1.jpg", 
-      price: 19.95, 
-      isOnSale: false, 
-      quantityInCart: 0 
-    }, 
-    { 
-      id: 2, 
-      name: "Lolo", 
-      imageUrl: "assets/images/wine2.jpg", 
-      price: 6.15, 
-      isOnSale: true, 
-      quantityInCart: 0 
-    }, 
-    { 
-      id: 3, 
-      name: "Pago de Carraovejas", 
-      imageUrl: "assets/images/wine3.jpg", 
-      price: 31.9, 
-      isOnSale: false, 
-      quantityInCart: 0 
-    } 
-  ];
+  private apiUrl = 'http://localhost:3000/api/articles';
+
+  constructor(private http: HttpClient) {}
+
+  // GET con búsqueda opcional 
+  getArticles(query?: string): Observable<Article[]> { 
+    const url = query ? `${this.apiUrl}?q=${query}` : this.apiUrl; 
+    return this.http.get<Article[]>(url); 
+  } 
   
-  constructor() { }
-
-  // Obtener todos los artículos 
-  getArticles(): Observable<Article[]> { 
-    return of(this.articles); 
-  } 
-
-  // Cambiar cantidad en carrito 
-  changeQuantity(articleID: number, changeInQuantity: number): Observable<Article | undefined> { 
-    const article = this.articles.find(a => a.id === articleID); 
-    if (article) { 
-      article.quantityInCart += changeInQuantity; 
-      // Evitar cantidades negativas 
-      if (article.quantityInCart < 0) { 
-        article.quantityInCart = 0; 
-      } 
-    } 
-    return of(article); 
-  } 
-
-  // Crear un artículo nuevo 
+  // POST para crear artículo 
   create(article: Article): Observable<Article> { 
-    const newId = this.articles.length 
-    ? Math.max(...this.articles.map(a => a.id)) + 1 
-    : 1; 
-    const newArticle: Article = { ...article, id: newId }; 
-    this.articles.push(newArticle); 
-    return of(newArticle); 
+    return this.http.post<Article>(this.apiUrl, article); 
+  } 
+  
+  // PATCH para cambiar cantidad 
+  changeQuantity(id: number, changeInQuantity: number): Observable<Article> { 
+    return this.http.patch<Article>(`${this.apiUrl}/${id}`, { 
+      changeInQuantity 
+    }); 
   } 
 }

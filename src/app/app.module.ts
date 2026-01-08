@@ -10,6 +10,7 @@ import { ArticleNewReactiveComponent } from './article-new-reactive/article-new-
 import { ArticleNewTemplateComponent } from './article-new-template/article-new-template.component';
 import { ArticleItemComponent } from './article-item/article-item.component';
 
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,7 @@ import { ArticleItemComponent } from './article-item/article-item.component';
     ArticleItemComponent
   ],
   imports: [
-    BrowserModule, FormsModule,ReactiveFormsModule
+    BrowserModule, FormsModule, ReactiveFormsModule, HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
