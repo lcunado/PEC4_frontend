@@ -1,32 +1,45 @@
-import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
-import { Observable } from "rxjs";
-import { Article } from "src/app/models/article";
-import { ArticleQuantityChange } from "src/app/models/article-quantity-change";
+import { Component } from "@angular/core";
+import { Observable, Subject } from "rxjs"; 
+import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators"; 
+import { Article } from "src/app/models/article"; 
 import { ArticleService } from "src/app/services/article.service";
 
-@Component({
-  selector: "app-article-list",
-  template: ` 
-    <app-article-item 
-      *ngFor="let article of articles$ | async" 
-      [article]="article" 
-      (quantityChange)="onQuantityChange($event)" >
-    </app-article-item> `,
-  styles: [],
-  changeDetection: ChangeDetectionStrategy.OnPush
+@Component({ 
+  selector: "app-article-list", 
+  templateUrl: "./article-list.component.html", 
+  styleUrls: ["./article-list.component.css"]
 })
-export class ArticleListComponent {
-  public articles$: Observable<Article[]>; // Observable
-  
-  constructor(private articleService: ArticleService) { // Asignamos el observable 
-    this.articles$ = this.articleService.getArticles(); 
-  }
+    
 
-  onQuantityChange(change: ArticleQuantityChange) { 
-    this.articleService.changeQuantity( 
-      change.article.id, 
-      change.changeInQuantity 
-    ).subscribe(); 
-  }
+export class ArticleListComponent {
+  articles$!: Observable<Article[]>; // Observable
+  private searchTerms = new Subject<string>();
+
+  constructor(private articleService: ArticleService) {} 
+  
+  ngOnInit() { 
+    // Cargar todos los artículos al inicio 
+    this.articles$ = this.articleService.getArticles(); 
+    
+    // Escuchar búsquedas del usuario 
+    this.searchTerms.pipe( 
+      debounceTime(300), 
+      distinctUntilChanged(), 
+      switchMap(term => this.articleService.getArticles(term)) 
+    ).subscribe(articles => { 
+      this.articles$ = new Observable(observer => observer.next(articles)); 
+    });
+  } 
+  
+  // Método search
+  search(term: string) { 
+    this.searchTerms.next(term); 
+  } 
+  
+  // Método onQuantityChange
+  onQuantityChange(change: any) { 
+    this.articleService.changeQuantity(change.article.id, change.changeInQuantity) 
+    .subscribe(); 
+  } 
 }
 

@@ -1,0 +1,14 @@
+<div class="article-list-container"> 
+    <input 
+        type="text" 
+        placeholder="Search articles..." 
+        (input)="search($any($event.target).value)" 
+    /> 
+    <div class="articles"> 
+        <app-article-item 
+            *ngFor="let article of articles$ | async" 
+            [article]="article" 
+            (quantityChange)="onQuantityChange($event)" 
+        ></app-article-item> 
+    </div> 
+</div>
