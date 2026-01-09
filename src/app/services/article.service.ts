@@ -17,6 +17,11 @@ export class ArticleService {
     const url = query ? `${this.apiUrl}?q=${query}` : this.apiUrl; 
     return this.http.get<Article[]>(url); 
   } 
+
+  // GET con id
+  getArticleById(id: string) { 
+    return this.http.get<Article>(`${this.apiUrl}/${id}`); 
+  }
   
   // POST para crear artículo 
   create(article: Article): Observable<Article> { 

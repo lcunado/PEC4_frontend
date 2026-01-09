@@ -12,6 +12,11 @@ import { ArticleItemComponent } from './article-item/article-item.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { DefaultImagePipe } from './pipes/default-image.pipe';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { ArticleDetailComponent } from './article-detail/article-detail.component';
+import { RouterModule } from '@angular/router';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -21,10 +26,13 @@ import { DefaultImagePipe } from './pipes/default-image.pipe';
     ArticleNewReactiveComponent,
     ArticleNewTemplateComponent,
     ArticleItemComponent,
-    DefaultImagePipe
+    DefaultImagePipe,
+    LoginComponent,
+    RegisterComponent,
+    ArticleDetailComponent
   ],
   imports: [
-    BrowserModule, FormsModule, ReactiveFormsModule, HttpClientModule
+    BrowserModule, FormsModule, ReactiveFormsModule, HttpClientModule, RouterModule, AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

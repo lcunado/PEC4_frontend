@@ -1,5 +1,10 @@
 <div class="article-item" [ngClass]="{ sale: article.isOnSale }">
-    <div class="image"><img [src]="article.imageUrl | defaultImage" /></div>
+    <div class="image">
+      <a [routerLink]="['/article', article.id]">
+        <img [src]="article.imageUrl | defaultImage" />
+      </a>
+    </div>
+
     <div class="details">
       <div>{{ article.name }}</div>
       <div  [ngClass]="{ salePrice: !article.isOnSale }" >{{ article.price | currency:'EUR':'symbol':'1.2-2' }}</div>

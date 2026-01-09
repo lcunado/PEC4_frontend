@@ -1,0 +1,8 @@
+<div *ngIf="article">
+  <h2>{{ article.name }}</h2>
+  <img [src]="article.imageUrl | defaultImage" />
+  <p>Precio: {{ article.price | currency:'EUR':'symbol':'1.2-2' }}</p>
+  <p>Cantidad en carrito: {{ article.quantityInCart }}</p>
+  <p *ngIf="article.isOnSale">En oferta</p>
+</div>
+
