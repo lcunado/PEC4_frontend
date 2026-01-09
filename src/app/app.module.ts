@@ -11,6 +11,7 @@ import { ArticleNewTemplateComponent } from './article-new-template/article-new-
 import { ArticleItemComponent } from './article-item/article-item.component';
 
 import { HttpClientModule } from '@angular/common/http';
+import { DefaultImagePipe } from './pipes/default-image.pipe';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { HttpClientModule } from '@angular/common/http';
     ArticleListComponent,
     ArticleNewReactiveComponent,
     ArticleNewTemplateComponent,
-    ArticleItemComponent
+    ArticleItemComponent,
+    DefaultImagePipe
   ],
   imports: [
     BrowserModule, FormsModule, ReactiveFormsModule, HttpClientModule
