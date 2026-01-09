@@ -2,7 +2,7 @@
     <div class="image"><img [src]="article.imageUrl" /></div>
     <div class="details">
       <div>{{ article.name }}</div>
-      <div  [ngClass]="{ salePrice: !article.isOnSale }" >{{ article.price }} €</div>
+      <div  [ngClass]="{ salePrice: !article.isOnSale }" >{{ article.price | currency:'EUR':'symbol':'1.2-2' }}</div>
       <div  *ngIf="article.isOnSale">
         <button *ngIf="article.quantityInCart > 0" (click)="decrementInCart()">
           -
