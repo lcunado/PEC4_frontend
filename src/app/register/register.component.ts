@@ -26,14 +26,12 @@ export class RegisterComponent {
   onSubmit() {
     if (this.form.invalid) return;
 
-    const { username } = this.form.value;
+    const { username, password } = this.form.value;
 
-    this.userService.register(username).subscribe({
+    this.userService.register(username, password).subscribe({
       next: () => {
         this.message = 'Usuario registrado. La contraseña por defecto es SECRET.';
         this.errorMessage = '';
-        // Redirigir al login
-        this.router.navigate(['/login']);
       },
       error: () => {
         this.errorMessage = 'No se ha podido registrar el usuario';

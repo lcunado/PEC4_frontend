@@ -15,7 +15,7 @@ interface RegisterRequest {
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'http://localhost:3000/user';
+  private apiUrl = 'http://localhost:3000/api/user';
 
   constructor(private http: HttpClient) {}
 
@@ -24,9 +24,9 @@ export class UserService {
     return this.http.post<any>(`${this.apiUrl}/login`, body);
   }
 
-  register(username: string): Observable<any> {
-    const body: RegisterRequest = { username };
-    return this.http.post<any>(`${this.apiUrl}/register`, body);
+  register(username: string, password: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/register`, { username, password });
   }
+
 }
 
